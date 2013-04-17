@@ -34,7 +34,6 @@
     if (self = [self initWithSize:CGSizeMake(CGImageGetWidth(image), CGImageGetHeight(image))]) {
         ATByteImageContext *context = [self newContext];
         CGContextDrawImage(context.CGContext, CGRectMake(0, 0, width, height), image);
-        [context release];
     }
     return self;
 }
@@ -49,7 +48,6 @@
     CGColorSpaceRelease(colorSpace);
     if (bytes)
         free(bytes), bytes = NULL;
-    [super dealloc];
 }
 
 - (CGSize)size {
@@ -63,7 +61,7 @@
         memcpy(bytesToUse, bytes, byteCount);
     }
     NSData *dataRef = [NSData dataWithBytesNoCopy:bytesToUse length:byteCount freeWhenDone:freeWhenDone];
-    CGDataProviderRef dstDataProvider = CGDataProviderCreateWithCFData((CFDataRef) dataRef);
+    CGDataProviderRef dstDataProvider = CGDataProviderCreateWithCFData((__bridge CFDataRef) dataRef);
     CGImageRef result = CGImageCreate(width, height, bitsPerComponent,
                                       bytesPerPixel*bitsPerComponent, bytesPerRow,
                                       colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big,
@@ -99,7 +97,7 @@
 }
 
 - (ATByteImageContext *)context {
-    return [[self newContext] autorelease];
+    return [self newContext];
 }
 
 -(void)clear {
@@ -137,7 +135,7 @@
 
 -(id)initWithByteImage:(ATByteImage *)anImage {
     if (self = [super init]) {
-        image = [anImage retain];
+        image = anImage;
         context = CGBitmapContextCreate(image.bytes, image.width, image.height,
                                         image.bitsPerComponent, image.bytesPerRow, image.colorSpace,
                                         kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
@@ -147,8 +145,7 @@
 
 -(void)dealloc {
     CGContextRelease(context);
-    [image release], image = nil;
-    [super dealloc];
+    image, image = nil;
 }
 
 @end

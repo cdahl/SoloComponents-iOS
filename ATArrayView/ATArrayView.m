@@ -57,8 +57,7 @@ awakeFromNib is called instead of initWithFrame */
 }
 
 - (void)dealloc {
-    [_scrollView release], _scrollView = nil;
-    [super dealloc];
+    _scrollView, _scrollView = nil;
 }
 
 
@@ -199,7 +198,7 @@ awakeFromNib is called instead of initWithFrame */
 - (UIView *)dequeueReusableItem {
     UIView *result = [_recycledItems anyObject];
     if (result) {
-        [_recycledItems removeObject:[[result retain] autorelease]];
+        [_recycledItems removeObject:result];
     }
     return result;
 }
@@ -224,16 +223,12 @@ awakeFromNib is called instead of initWithFrame */
 #pragma mark -
 #pragma mark init/dealloc
 
-- (void)dealloc {
-    [super dealloc];
-}
-
 
 #pragma mark -
 #pragma mark View Loading
 
 - (void)loadView {
-    self.view = [[[ATArrayView alloc] init] autorelease];
+    self.view = [[ATArrayView alloc] init];
 }
 
 - (void)viewDidLoad {

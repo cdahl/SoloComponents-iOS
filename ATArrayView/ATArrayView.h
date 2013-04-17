@@ -13,7 +13,7 @@
     UIScrollView *_scrollView;
 
     // properties
-    id<ATArrayViewDelegate> _delegate;
+    id<ATArrayViewDelegate> __weak _delegate;
 
     UIEdgeInsets    _contentInsets;
     CGSize          _itemSize;
@@ -39,7 +39,7 @@ prevent a previous reusable "grid" cell to not show the content of previous cell
 This allows for smoother scrolling and minimizing 'jerkyness' when loading network resources in cells at the tradeoff of memory.
  */
 @property(nonatomic,assign) int preloadBuffer;
-@property(nonatomic, assign) IBOutlet id<ATArrayViewDelegate> delegate;
+@property(nonatomic, weak) IBOutlet id<ATArrayViewDelegate> delegate;
 
 @property(nonatomic, assign) UIEdgeInsets contentInsets;
 
