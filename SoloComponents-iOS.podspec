@@ -8,4 +8,5 @@ Pod::Spec.new do |s|
   s.author    = { 'Andrey Tarantsov' =>  'andreyvit@gmail.com' }
   s.source    = { :git => 'git@github.com:RobotsAndPencils/SoloComponents-iOS.git', :tag => '0.0.2' }
   s.source_files = '**/*.{h,m}'
+  s.requires_arc = true
 end
