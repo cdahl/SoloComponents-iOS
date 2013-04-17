@@ -97,6 +97,7 @@
 
 - (void)setGapBetweenPages:(CGFloat)value {
     _gapBetweenPages = value;
+    _scrollView.frame = [self frameForScrollView];
     [self setNeedsLayout];
 }
 
