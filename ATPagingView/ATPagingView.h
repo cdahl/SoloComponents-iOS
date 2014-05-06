@@ -64,7 +64,6 @@
 - (void)willAnimateRotation;  // call this from willAnimateRotationToInterfaceOrientation:duration:
 
 - (void)didRotate;  // call this from didRotateFromInterfaceOrientation:
-
 @end
 
 

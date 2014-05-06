@@ -342,21 +342,30 @@
 #ifdef AT_PAGING_VIEW_TRACE_LAYOUT
     NSLog(@"setCurrentPageIndex(%d): _scrollView.frame == %@", newPageIndex, NSStringFromCGRect(_scrollView.frame));
 #endif
-    if (_horizontal && (_scrollView.frame.size.width > 0 && fabsf(_scrollView.frame.origin.x - (-_gapBetweenPages/2)) < 1e-6) ) {
-		[UIView animateWithDuration:0.3
-						 animations:^{
+	NSTimeInterval animationTime = 0.5;
+	
+	[UIView animateWithDuration:animationTime/2
+					 animations:^{
+						 _scrollView.alpha = 0.0;
+					 } completion:^(BOOL finished) {
+						 
+						 if (_horizontal && (_scrollView.frame.size.width > 0 && fabsf(_scrollView.frame.origin.x - (-_gapBetweenPages/2)) < 1e-6) ) {
+							 
 							 _scrollView.contentOffset = CGPointMake(_scrollView.frame.size.width * newPageIndex, 0);
-						 }];
-    } else if (_scrollView.frame.size.height > 0 && fabsf(_scrollView.frame.origin.y - (-_gapBetweenPages/2)) < 1e-6) {
-		[UIView animateWithDuration:0.3
-						 animations:^{
+							 
+						 } else if (_scrollView.frame.size.height > 0 && fabsf(_scrollView.frame.origin.y - (-_gapBetweenPages/2)) < 1e-6) {
 							 _scrollView.contentOffset = CGPointMake(0, _scrollView.frame.size.height * newPageIndex);
-						 }];
-    }
+						 }
+						 
+						 _currentPageIndex = newPageIndex;
+						 
+						 [self configurePages];
+						 [UIView animateWithDuration:animationTime/2
+										  animations:^{
+											  _scrollView.alpha = 1.0;
+										  }];
+					 }];
 	
-    _currentPageIndex = newPageIndex;
-	
-	[self configurePages];
 }
 
 
