@@ -355,6 +355,8 @@
     }
 	
     _currentPageIndex = newPageIndex;
+    
+    _scrollView.userInteractionEnabled = YES;
 	
 	[self configurePages];
 }
@@ -474,8 +476,11 @@
 #pragma mark UIScrollViewDelegate methods
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    scrollView.userInteractionEnabled = NO;
+    
     if (_rotationInProgress)
         return;
+    
     [self configurePages];
 }
 
@@ -485,11 +490,13 @@
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (!decelerate) {
+        scrollView.userInteractionEnabled = YES;
         [self knownToBeIdle];
     }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    scrollView.userInteractionEnabled = YES;
     [self knownToBeIdle];
 }
 
